@@ -1,0 +1,28 @@
+html {
+  background: rgb(240, 240, 240);
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+h2 {
+  font-size: 1.5em;
+}
+
+body {
+  display: flex;
+  flex-direction: column;        
+  align-items: center;           
+  justify-content: center;      
+  min-height: 100vh;      
+  margin: 0;
+}
+
+.info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  max-width: 800px;
+  margin-top: 20px;
+}
