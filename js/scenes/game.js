@@ -20,7 +20,7 @@ export default class MainScene extends Phaser.Scene {
 
     // … ball code above
 
-    // TODO: Rainbow blocks
+    // TODO 2: Rainbow blocks
     // We want every block to start a different color, and then have all the
     // blocks continuously cycle through the rainbow over time.
     //
@@ -40,8 +40,8 @@ export default class MainScene extends Phaser.Scene {
     //    setTint() again so its color shifts along the rainbow.
 
     this.blocks = this.physics.add.staticGroup();
-    for (let j = 0; j < 3; j++) {
-      for (let i = 0; i < 5; i++) {
+    for (let j = 0; j < 1; j++) {
+      for (let i = 0; i < 1; i++) {
         let block = this.blocks.create(272 + i * 64, 100 + j * 32, "block");
       }
     }
@@ -54,7 +54,7 @@ export default class MainScene extends Phaser.Scene {
     // … controls code above
     this.physics.add.collider(this.player, this.ball);
 
-    // TODO: Score blocks
+    // TODO 1: Score blocks
     // When the ball hits a block, we want the block to disappear and the
     // score to go up. This uses an arrow function, which is a shorthand way
     // to write a function, you'll use them a lot in JS.
@@ -64,7 +64,7 @@ export default class MainScene extends Phaser.Scene {
     // order they're listed above: ball first, then block.
     //
     // How the code should work:
-    // 1. Destroy the block that was hit, google how to destroy in Phaser 3, you also need to use the passed in block
+    // 1. Destroy the block that was hit you need to use the passed in block
     //    and follow the AI overview suggestion.
     // 2. Add 10 to this.score.
     // 3. Print the score to the console using
@@ -77,6 +77,27 @@ export default class MainScene extends Phaser.Scene {
     this.score = 0;
     this.scoreText = this.add.text(10, 10, "Score: " + this.score);
   } // end of create()
+
+  // TODO 3: Implement lives + win loss
+  // Having lives will extend the game and create a longer experience. Much of this code wont go right below here either you will have to work out where it goes.
+  // first set a live counter (same as score) and set it to 3 (or however many you want)
+  // next set a lives text somewhere on the screen to display lives
+  // afterwards instead of just destorying the ball call a function called resetLevel() and pass in this.lives (that means put it in the bracket of the function call resetLevel(this.lives))
+  // next beneath this block of code create a function called resetLevel(lives) and put lives in the brackets
+  // in the function, the first line needs to check if you are still alive (dead would be 0)
+  //
+  // if the player is still alive you need to call the create ball function and put in the brackets ballGroup
+  // next you need to change how the ball is currently created. Right now its just one sprite but if we make it a group() (not a staticGroup()) then we can make the same ball over and over in one line of code
+  // leave all the ball code the same except make it this.balls and a group (change all the lines directly under this.balls = blah) now when we make a ball it wont need all the proprties set
+  // once thats done create a ball in the create ball function like you do with blocks
+  //
+  // if the player is dead call the game over scene (look at how preloader.js and title.js call the next scene)
+  // you need to make a gameover.js file in scenes/, copy the class structure of the title page but make it gameOver, make the text red and say gameover, you also need to copy how app.js uses the other scenes
+  //
+  // If you have a game over scene then you should have a winScene.
+  // make a win.js in scenes/ do the same as for gameOver scene but for winScene
+  // inside the break blocks function add an if statement to check if this.blocks.countActive() is  less than or equal 0
+  // If it is, call the winscene
 
   /* Runs every frame */
   update() {
