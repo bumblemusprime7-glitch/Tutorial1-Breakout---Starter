@@ -39,12 +39,23 @@ export default class MainScene extends Phaser.Scene {
     //    every block still on screen (this.blocks.getChildren()) and call
     //    setTint() again so its color shifts along the rainbow.
 
+    this.rainbow = [0xff0000, 0xff9900, 0xffff00, 0x00ff00, 0x0000ff];
+    this.colorOffset = 0;
+
     this.blocks = this.physics.add.staticGroup();
-    for (let j = 0; j < 1; j++) {
-      for (let i = 0; i < 1; i++) {
+    for (let j = 0; j < 3; j++) {
+      for (let i = 0; i < 5; i++) {
         let block = this.blocks.create(272 + i * 64, 100 + j * 32, "block");
+        block.setTint(this.rainbow[i % this.rainbow.length]);
       }
     }
+
+    this.time.addEvent({
+      delay: 200,
+      loop: true,
+      callback: this.cycleBlockColors,
+      callbackScope: this,
+    });
     // … block code above
     this.controls = {
       left: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A),
@@ -71,12 +82,32 @@ export default class MainScene extends Phaser.Scene {
     //    console.log("The score is " + this.score).
     // 4. Update the score text on screen using this.scoreText.setText().
 
-    this.physics.add.collider(this.ball, this.blocks, (ball, block) => {});
+    this.physics.add.collider(
+      this.ball,
+      this.blocks,
+      this.hitBlock,
+      null,
+      this,
+    );
 
     // … collisions code above
     this.score = 0;
     this.scoreText = this.add.text(10, 10, "Score: " + this.score);
   } // end of create()
+
+  hitBlock(ball, block) {
+    block.destroy();
+    this.score += 10;
+    console.log("The score is " + this.score);
+    this.scoreText.text = "Score: " + this.score;
+  }
+
+  cycleBlockColors() {
+    this.colorOffset++;
+    this.blocks.getChildren().forEach((block, i) => {
+      block.setTint(this.rainbow[(i + this.colorOffset) % this.rainbow.length]);
+    });
+  }
 
   // TODO 3: Implement lives + win loss
   // Having lives will extend the game and create a longer experience. Much of this code wont go right below here either you will have to work out where it goes.
