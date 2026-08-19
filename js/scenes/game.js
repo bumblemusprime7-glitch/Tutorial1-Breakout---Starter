@@ -63,7 +63,28 @@ export default class MainScene extends Phaser.Scene {
     };
 
     // … controls code above
-    this.physics.add.collider(this.player, this.ball);
+
+    // TODO 4: Paddle bounce angle
+    // Right now the ball bounces off the paddle at a fixed angle no matter
+    // where it lands. In real Breakout, hitting near the edge of the paddle
+    // should send the ball off at a sharper angle, and hitting the middle
+    // should send it mostly straight up. This is done with a bit of math
+    // based on how far from the paddle's center the ball landed.
+    //
+    // How the code should work:
+    // 1. In the callback below, find how far the ball's x position is from
+    //    the paddle's center: let diff = ball.x - player.x.
+    // 2. Turn that into a ratio between -1 (far left edge) and 1 (far right
+    //    edge) by dividing by half the paddle's width:
+    //    let normalized = diff / (player.displayWidth / 2).
+    // 3. Pick a max horizontal speed (like 300) and multiply it by
+    //    normalized to get the ball's new horizontal velocity, then set it
+    //    with ball.setVelocityX(normalized * maxSpeed).
+    // 4. Keep the ball's vertical speed consistent so it still shoots back
+    //    upward - set ball.setVelocityY() to a fixed negative number (like
+    //    -250) so it doesn't slow down or go the wrong way over time.
+
+    this.physics.add.collider(this.player, this.ball, (player, ball) => {});
 
     // TODO 1: Score blocks
     // When the ball hits a block, we want the block to disappear and the
